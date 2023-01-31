@@ -4,18 +4,14 @@ import { useRouter } from "next/router";
 
 import { documentSchema, ekycSchema, inquirySchema } from "./schema";
 import FormikControl from "../../components/surveyPage/SurveyFormikControl";
-import {
-  documentInitValues,
-  matchedDocumentFiles,
-  surveyFields,
-} from "../../utils/data";
+import { documentInitValues, surveyFields } from "../../utils/data";
 import {
   DocumentStepInterface,
   EkycStepInterface,
   InquiryStepInterface,
 } from "./interface";
 
-export default function () {
+export const SurveyContainer = () => {
   const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -61,15 +57,6 @@ export default function () {
     setCurrentStep((prev) => prev - 1);
   };
 
-  const surveySteps = [
-    <InquiryStep next={handleNextStep} data={formData} />,
-    <DocumentStep
-      next={handleNextStep}
-      prev={handlePrevStep}
-      data={formData}
-    />,
-    <EkycStep next={handleNextStep} prev={handlePrevStep} data={formData} />,
-  ];
 
   return (
     <div className="max-w-2xl p-4 mx-auto ">
@@ -82,7 +69,20 @@ export default function () {
           ? "Step 3: eKYC"
           : "You are all set !"}
       </p>
-      {surveySteps[currentStep]}
+      {currentStep === 0 && (
+        <InquiryStep next={handleNextStep} data={formData} />
+      )}
+      {currentStep === 1 && (
+        <DocumentStep
+          next={handleNextStep}
+          prev={handlePrevStep}
+          data={formData}
+        />
+      )}
+      {currentStep === 2 && (
+        <EkycStep next={handleNextStep} prev={handlePrevStep} data={formData} />
+      )}
+
       {currentStep === 3 && (
         <div className="flex justify-center mt-4">
           <button
@@ -95,7 +95,7 @@ export default function () {
       )}
     </div>
   );
-}
+};
 
 const SurveyPart = ({
   fields,

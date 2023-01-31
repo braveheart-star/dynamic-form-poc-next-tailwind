@@ -1,10 +1,10 @@
+import { SurveyContainer } from "@/container/SurveyPage";
 import Layout from "../components/layout";
-import SurveyPage from "../container/SurveyPage";
 
 export default function Survey() {
   return (
     <Layout>
-      <SurveyPage />
+      <SurveyContainer />
     </Layout>
   );
 }
